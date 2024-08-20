@@ -19,23 +19,23 @@ void AKJH_HttpManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TMap<FString, FString> data;
+	//TMap<FString, FString> data;
 
-	// 회원가입
-    data.Add("userId", "user02");
-    data.Add("userPass", "pass01");
-    data.Add("userName", "Kang02");
-    data.Add("userEmail", "user01@naver.com");
-    data.Add("role", "USER");
+	//// 회원가입
+ //   data.Add("userId", "user02");
+ //   data.Add("userPass", "pass01");
+ //   data.Add("userName", "Kang02");
+ //   data.Add("userEmail", "user01@naver.com");
+ //   data.Add("role", "USER");
 
-	//ReqSignUp(UJsonParseLib::MakeJson(data));
+	////ReqSignUp(UJsonParseLib::MakeJson(data));
 
-	//// 로그인
-    //data.Add("id", "user02");
-    //data.Add("pass", "pass01");
-    //ReqLogin(UJsonParseLib::MakeJson(data));
+	////// 로그인
+ //   //data.Add("id", "user02");
+ //   //data.Add("pass", "pass01");
+ //   //ReqLogin(UJsonParseLib::MakeJson(data));
 
-	UE_LOG(LogTemp, Warning, TEXT("Request Data : %s"), *UJsonParseLib::MakeJson(data));
+	//UE_LOG(LogTemp, Warning, TEXT("Request Data : %s"), *UJsonParseLib::MakeJson(data));
 }
 
 /// <summary>
@@ -80,6 +80,9 @@ void AKJH_HttpManager::ReqLogin(FString Id, FString Password)
 	TMap<FString, FString> data;
 	data.Add("id", Id);
     data.Add("pass", Password);
+
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *UJsonParseLib::MakeJson(data));
+
 
 	// 요청 정보
 	req->SetURL(GetURL("login"));

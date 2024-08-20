@@ -16,8 +16,6 @@ class FITMATE_API UJsonParseLib : public UBlueprintFunctionLibrary
 
 
 public:
-
-	static FString JsonParse(const FString& json);
 	static FString MakeJson(const TMap<FString, FString> source);
 	
 };

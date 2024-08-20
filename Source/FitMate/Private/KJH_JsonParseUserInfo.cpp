@@ -13,19 +13,17 @@ FString UKJH_JsonParseUserInfo::JsonParse(const FString& json)
 	FString result;
 	if (FJsonSerializer::Deserialize(reader, response))
 	{
-		TArray<TSharedPtr<FJsonValue>> parseDataList = response->GetArrayField(TEXT("userInfo"));
+		TSharedPtr<FJsonObject> parseData = response->GetObjectField(TEXT("userInfo"));
 
-		if (parseDataList.Num() <= 0)
+		if (parseData == nullptr)
 		{
 			return result;
 		}
 
-		for (TSharedPtr<FJsonValue> data : parseDataList)
-		{
-			FString userName = data->AsObject()->GetStringField("userName");
-			FString userId = data->AsObject()->GetStringField("userId");
-			result.Append(FString::Printf(TEXT("userName : %s / userId : %s\n"), *userName, *userId));
-		}
+		FString userId = parseData->GetStringField("userId");
+		FString userName = parseData->GetStringField("userName");
+
+		result.Append(FString::Printf(TEXT("userName : %s / userId : %s\n"), *userName, *userId));
 	}
 	return result;
 }
