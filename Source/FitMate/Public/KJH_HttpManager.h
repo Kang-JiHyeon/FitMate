@@ -28,8 +28,8 @@ private:
 
 
 public:
-	void ReqSignUp(FString Json);
-	void ReqLogin(FString Json);
+	void ReqSignUp(FString Id, FString Password, FString UserName);
+	void ReqLogin(FString Id, FString Password);
 
 private:
 	void OnResSignUp(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
