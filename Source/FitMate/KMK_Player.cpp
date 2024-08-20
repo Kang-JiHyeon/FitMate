@@ -42,6 +42,9 @@ void AKMK_Player::Tick(float DeltaTime)
 	// 이동 인풋
 	AddMovementInput(dir, speed * DeltaTime);
 	dir = FVector::ZeroVector;
+
+	// 입력된 값에 따라 캐릭터의 yaw 축 회전 처리
+	AddControllerYawInput(dir.Size());
 }
 
 // Called to bind functionality to input
@@ -66,6 +69,7 @@ void AKMK_Player::InputMove(const struct FInputActionValue& value)
 	dir.Y = v.Y;
 
 	dir.Normalize();
+
 }
 
 
