@@ -58,9 +58,10 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 			if (actorClass)
 			{
 				widget = CreateWidget(GetWorld(), actorClass->widgetFact);
-				if (widget)
+				if (widget && count < 1)
 				{
 					SetViewPortLayer(widget, actorClass->layer);
+					count++;
 				}
 			}
 		}
@@ -72,4 +73,5 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 void UKMK_MakeWidgetComponent::SetViewPortLayer(UUserWidget* wid, int num)
 {
 	wid->AddToViewport(num);
+	me->pc->SetPause(true);
 }

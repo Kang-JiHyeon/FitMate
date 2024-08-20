@@ -32,6 +32,8 @@ public:
 
 	void InputInteraction(const struct FInputActionValue& value);
 
+	int count = 0;
+
 	class UUserWidget* widget;
 	
 	UFUNCTION()

@@ -15,5 +15,14 @@ class FITMATE_API UKMK_UserWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public :
+	virtual void NativeConstruct() override;
 
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* SendButt;
+	UPROPERTY(meta = (BindWidget))
+    class UEditableText* indgredientEditText;
+
+	UFUNCTION()
+	void OnCommitButtonClicked();
 };
