@@ -43,17 +43,23 @@ void AKJH_HttpManager::BeginPlay()
 /// </summary>
 /// <param name="SubUrl"></param>
 /// <param name="Json"></param>
-void AKJH_HttpManager::ReqSignUp(FString Json)
+void AKJH_HttpManager::ReqSignUp(FString Id, FString Password, FString UserName)
 {
-	// Http 모듈을 생성
 	FHttpModule& httpModule = FHttpModule::Get();
 	TSharedRef<IHttpRequest> req = httpModule.CreateRequest();
+
+	TMap<FString, FString> data;
+	data.Add("userId", Id);
+	data.Add("userPass", Password);
+	data.Add("userName", UserName);
+	data.Add("userEmail", "user01@naver.com");
+	data.Add("role", "USER");
 
 	// 요청 정보
 	req->SetURL(GetURL("signup"));
 	req->SetVerb(TEXT("POST"));
 	req->SetHeader(TEXT("content-type"), TEXT("application/json"));
-	req->SetContentAsString(Json);
+	req->SetContentAsString(UJsonParseLib::MakeJson(data));
 
 	// 응답받을 함수
 	req->OnProcessRequestComplete().BindUObject(this, &AKJH_HttpManager::OnResSignUp);
@@ -65,17 +71,21 @@ void AKJH_HttpManager::ReqSignUp(FString Json)
 /// 로그인 요청
 /// </summary>
 /// <param name="Json"></param>
-void AKJH_HttpManager::ReqLogin(FString Json)
+void AKJH_HttpManager::ReqLogin(FString Id, FString Password)
 {
 	// Http 모듈을 생성
 	FHttpModule& httpModule = FHttpModule::Get();
 	TSharedRef<IHttpRequest> req = httpModule.CreateRequest();
 
+	TMap<FString, FString> data;
+	data.Add("id", Id);
+    data.Add("pass", Password);
+
 	// 요청 정보
 	req->SetURL(GetURL("login"));
 	req->SetVerb(TEXT("PUT"));
 	req->SetHeader(TEXT("content-type"), TEXT("application/json"));
-	req->SetContentAsString(Json);
+	req->SetContentAsString(UJsonParseLib::MakeJson(data));
 
 	// 응답받을 함수
 	req->OnProcessRequestComplete().BindUObject(this, &AKJH_HttpManager::OnResLogin);
