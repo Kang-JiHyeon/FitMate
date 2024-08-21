@@ -38,8 +38,6 @@ void AKJH_HttpManager::ReqSignUp(FString Id, FString Password, FString UserName)
 	data.Add("userId", Id);
 	data.Add("userPass", Password);
 	data.Add("userName", UserName);
-	data.Add("userEmail", "user01@naver.com");
-	data.Add("role", "USER");
 
 	// 요청 정보
 	req->SetURL(GetURL("signup"));
