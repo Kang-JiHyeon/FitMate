@@ -128,7 +128,7 @@ void AKJH_HttpManager::OnResLogin(FHttpRequestPtr Request, FHttpResponsePtr Resp
 	if (bConnectedSuccessfully)
     {
         FString res = Response->GetContentAsString();
-		FString result = UKJH_JsonParseUserInfo::JsonParse(res);
+		FString result = UKJH_JsonParseUserInfo::JsonParseLogin(res);
 
 		if (result.IsEmpty() == false)
 		{
@@ -147,18 +147,23 @@ void AKJH_HttpManager::OnResLogin(FHttpRequestPtr Request, FHttpResponsePtr Resp
 
 }
 #pragma region KMK
+
+FString url;
 void AKJH_HttpManager::ReqIngredient(FString Ingredients)
 {
+	FString tocken ;
 	// Http 모듈을 생성
 	FHttpModule& httpModule = FHttpModule::Get();
 	TSharedRef<IHttpRequest> req = httpModule.CreateRequest();
 
 	TMap<FString, FString> data;
-	data.Add("ingredients", Ingredients);
+	data.Add("userNo", "1");
+	data.Add("foodName", Ingredients);
 
 	// 요청 정보
-	//req->SetURL(GetURL("login"));
-	//req->SetVerb(TEXT("PUT"));
+	req->SetURL("food");
+	
+	req->SetVerb(TEXT("POST"));
 	req->SetHeader(TEXT("content-type"), TEXT("application/json"));
 	req->SetContentAsString(UJsonParseLib::MakeJson(data));
 

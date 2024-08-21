@@ -5,7 +5,7 @@
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonWriter.h"
 
-FString UKJH_JsonParseUserInfo::JsonParse(const FString& json)
+FString UKJH_JsonParseUserInfo::JsonParseLogin(const FString& json)
 {
 	TSharedRef<TJsonReader<TCHAR>> reader = TJsonReaderFactory<TCHAR>::Create(json);
 	TSharedPtr<FJsonObject> response = MakeShareable(new FJsonObject());

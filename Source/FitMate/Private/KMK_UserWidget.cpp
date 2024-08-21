@@ -7,12 +7,14 @@
 #include "Internationalization/Text.h"
 #include "Components/Button.h"
 #include "KMK_MakeWidgetComponent.h"
+#include "KJH_HttpManager.h"
 
 void UKMK_UserWidget::NativeConstruct()
 {
     Super::NativeConstruct();
     auto* player = GetWorld()->GetFirstPlayerController()->GetPawn();
     playerWidget = player->FindComponentByClass<UKMK_MakeWidgetComponent>();
+    httpManger = Cast<AKJH_HttpManager>(managerFact);
     if (SendButt)
     {
         // 버튼 클릭 이벤트 바인딩
@@ -27,6 +29,7 @@ void UKMK_UserWidget::OnCommitButtonClicked()
         FText CurrentText = indgredientEditText->GetText();
         // 서버에게 데이터값 보내기
         GEngine->AddOnScreenDebugMessage(1, 1, FColor::Green, FString::Printf(TEXT("%s"), *CurrentText.ToString()));
+        httpManger->ReqIngredient(CurrentText.ToString());
     }
 }
 

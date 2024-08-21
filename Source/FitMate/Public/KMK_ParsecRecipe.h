@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "KJH_JsonParseUserInfo.generated.h"
+#include "KMK_ParsecRecipe.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FITMATE_API UKJH_JsonParseUserInfo : public UBlueprintFunctionLibrary
+class FITMATE_API UKMK_ParsecRecipe : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
 public:
-	static FString JsonParseLogin(const FString& json);
+	static TMap<int, FString>  RecipeJsonParsec(const FString& json);
 };

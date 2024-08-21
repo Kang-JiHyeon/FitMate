@@ -6,6 +6,7 @@
 #include "../../../../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h"
 #include "KMK_InteractionActor.h"
 #include "KMK_Player.h"
+#include "KMK_ReceipWidget.h"
 
 // Sets default values for this component's properties
 UKMK_MakeWidgetComponent::UKMK_MakeWidgetComponent()
@@ -64,6 +65,15 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 				{
 					SetViewPortLayer(widget, actorClass->layer);
 					count++;
+					auto* ex = Cast<UKMK_ReceipWidget>(widget);
+					if (ex)
+					{
+						TMap<int, FString> log;
+						log.Add(0, "1");
+						log.Add(1, "2");
+						log.Add(2, "3");
+						ex->SetTextLog(log);
+					}
 				}
 			}
 		}

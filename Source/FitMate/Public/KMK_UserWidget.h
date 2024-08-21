@@ -27,4 +27,8 @@ public :
 	void OnCommitButtonClicked();
 	UPROPERTY()
 	class UKMK_MakeWidgetComponent* playerWidget;
+	UPROPERTY(EditAnywhere)
+	class AActor* managerFact;
+	UPROPERTY()
+	class AKJH_HttpManager* httpManger;
 };
