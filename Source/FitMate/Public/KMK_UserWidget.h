@@ -21,16 +21,10 @@ public :
 	UPROPERTY(meta = (BindWidget))
 	class UButton* SendButt;
 	UPROPERTY(meta = (BindWidget))
-	class UButton* ExitButt;
-
-	UPROPERTY(meta = (BindWidget))
     class UEditableText* indgredientEditText;
 
 	UFUNCTION()
 	void OnCommitButtonClicked();
-
-	UFUNCTION()
-	void OnClickExitButt();
 	UPROPERTY()
 	class UKMK_MakeWidgetComponent* playerWidget;
 };

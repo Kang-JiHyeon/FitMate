@@ -17,7 +17,6 @@ void UKMK_UserWidget::NativeConstruct()
     {
         // 버튼 클릭 이벤트 바인딩
         SendButt->OnClicked.AddDynamic(this, &UKMK_UserWidget::OnCommitButtonClicked);
-        ExitButt->OnClicked.AddDynamic(this, &UKMK_UserWidget::OnClickExitButt);
     }
 }
 void UKMK_UserWidget::OnCommitButtonClicked()
@@ -31,9 +30,3 @@ void UKMK_UserWidget::OnCommitButtonClicked()
     }
 }
 
-void UKMK_UserWidget::OnClickExitButt()
-{
-    RemoveFromParent();
-    // playerWidget->count = 0;
-    GetWorld()->GetFirstPlayerController()->SetPause(false);
-}

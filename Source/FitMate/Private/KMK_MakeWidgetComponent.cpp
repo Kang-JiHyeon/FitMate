@@ -70,10 +70,15 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 	}
 }
 
-
 // 외부에서 호출
 void UKMK_MakeWidgetComponent::SetViewPortLayer(UUserWidget* wid, int num)
 {
 	wid->AddToViewport(num);
 	me->pc->SetPause(true);
+}
+
+void UKMK_MakeWidgetComponent::DeleteMyWidget()
+{
+	widget->RemoveFromParent();
+	me->pc->SetPause(false);
 }

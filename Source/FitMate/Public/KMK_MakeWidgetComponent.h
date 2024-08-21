@@ -33,10 +33,11 @@ public:
 	void InputInteraction(const struct FInputActionValue& value);
 	UPROPERTY()
 	int count = 0;
-
+	UPROPERTY()
 	class UUserWidget* widget;
 	
 	UFUNCTION()
 	void SetViewPortLayer(UUserWidget* wid, int num);
-
+	UFUNCTION(BlueprintCallable)
+	void DeleteMyWidget();
 };
