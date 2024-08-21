@@ -8,7 +8,7 @@
 
 void UKMK_ReceipWidget::PlayYoutube(FString& youtube)
 {
-    youtube = TEXT("https://www.youtube.com/watch?v=sqoIAT1h-o8");
+    youtube = TEXT("https://www.youtube.com/watch?v=nJ0iCRxgcr4");
     if (youtubeBrowser)
     {
         youtubeBrowser->LoadURL(youtube);
@@ -17,7 +17,10 @@ void UKMK_ReceipWidget::PlayYoutube(FString& youtube)
 
 void UKMK_ReceipWidget::SetTextLog(TMap<FString, FString> logs)
 {
-    MenuText->SetText(FText::FromString(logs["HI"]));
-    IngredientText->SetText(FText::FromString(logs["He"]));
-    ReceEdiableText->SetText(FText::FromString(logs["HIy"]));
+    // 서버에서 주는 주소값
+    MenuText->SetText(FText::FromString(logs["Menu"]));
+    FString originalString = logs["ingred"];
+    FString modifiedString = originalString.Replace(TEXT(","), TEXT("\n"));
+    IngredientText->SetText(FText::FromString(modifiedString));
+    ReceEdiableText->SetText(FText::FromString(logs["recipe"]));
 }

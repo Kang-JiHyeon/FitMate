@@ -12,23 +12,13 @@ TMap<FString, FString> UKMK_ParsecRecipe::RecipeJsonParsec(const FString& json, 
 
 	if (FJsonSerializer::Deserialize(reader, response))
 	{
-		// 받아오는 값
-		TArray<TSharedPtr<FJsonValue>> parseDataList = response->GetArrayField(TEXT("ingredients"));
+		FString menu = response->GetStringField("food_name");
+		FString recipe = response->GetStringField("recipe");
 
-		if (parseDataList.Num() <= 0)
-		{
-			return result;
-		}
-
-		for (TSharedPtr<FJsonValue> data : parseDataList)
-		{
-			FString menu = data->AsObject()->GetStringField("food");
-			FString recipe = data->AsObject()->GetStringField("recipe");
-			// 서버에서 주는 주소값
-			result.Add("menu", menu);
-			result.Add("in", ingredient);
-			result.Add("ad", recipe);
-		}
+		// 서버에서 주는 주소값
+		result.Add("Menu", menu);
+		result.Add("ingred", ingredient);
+		result.Add("recipe", recipe);
 	}
 	return result;
 }
