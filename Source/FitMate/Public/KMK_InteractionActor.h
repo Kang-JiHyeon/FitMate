@@ -27,5 +27,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Widget")
 	TSubclassOf<class UUserWidget>widgetFact;
 	UPROPERTY(EditAnywhere, Category = "Widget")
+	TSubclassOf<class UUserWidget>ResWidgetFact;
+	UPROPERTY(EditAnywhere, Category = "Widget")
 	int layer = 0;
 };

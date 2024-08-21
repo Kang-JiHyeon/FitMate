@@ -33,13 +33,15 @@ public:
 	void InputInteraction(const struct FInputActionValue& value);
 	UPROPERTY()
 	int count = 0;
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	class UUserWidget* widget;
+	UPROPERTY(BlueprintReadWrite)
+	class UUserWidget* RecipWidget;
 	
 	UFUNCTION()
 	void SetViewPortLayer(UUserWidget* wid, int num);
 	UFUNCTION(BlueprintCallable)
-	void DeleteMyWidget();
+	void DeleteMyWidget(UUserWidget* wid);
 
 	UPROPERTY(EditAnywhere)
 	class UParticleSystem* SelectedParticle;

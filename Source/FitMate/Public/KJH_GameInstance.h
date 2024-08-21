@@ -19,8 +19,9 @@ public:
 	FString UserName;
 
 public:
-
-
+	UKJH_GameInstance();
+	virtual void OnStart() override;
 	void SetUserInfo(FString userId, FString userName);
-
+	UPROPERTY()
+	class USoundBase* bgm = nullptr;
 };

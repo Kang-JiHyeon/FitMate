@@ -7,6 +7,7 @@
 #include "KJH_JsonParseUserInfo.h"
 #include "KJH_GameInstance.h"
 #include "KMK_ParsecRecipe.h"
+#include "KMK_MakeWidgetComponent.h"
 
 
 // Sets default values
@@ -149,7 +150,13 @@ void AKJH_HttpManager::ReqIngredient(FString Ingredients)
 	dataSet = Ingredients;
 	TMap<FString, FString> data;
 	// data.Add("userNo", "1");
-	data.Add("foodName", Ingredients);
+	auto* playerComp = GetWorld()->GetFirstPlayerController()->GetPawn()->FindComponentByClass<UKMK_MakeWidgetComponent>();
+	if (playerComp)
+	{
+		playerComp->DeleteMyWidget(playerComp->widget);
+		playerComp->SetViewPortLayer(playerComp->RecipWidget, 2);
+	}
+	data.Add("ingredient", Ingredients);
 
 	// 요청 정보
 	req->SetURL(GetURL("result"));
@@ -172,6 +179,9 @@ void AKJH_HttpManager::OnResIngredients(FHttpRequestPtr Request, FHttpResponsePt
 		TMap<FString, FString> result = UKMK_ParsecRecipe::RecipeJsonParsec(respon, dataSet);
         GEngine->AddOnScreenDebugMessage(3, 10, FColor::Blue, FString::Printf(TEXT("%s"), *respon));
         UE_LOG(LogTemp, Warning, TEXT("OnResIngredient Successed!! : \n%s "), *respon);
+		// 플레이어 컴포넌트에 보내줘야함
+
+
 	}
 	else
 	{

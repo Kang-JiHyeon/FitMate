@@ -8,7 +8,7 @@
 
 void UKMK_ReceipWidget::PlayYoutube(FString& youtube)
 {
-    youtube = TEXT("https://www.youtube.com/watch?v=NRgZuuwD2WY&list=RDNRgZuuwD2WY&start_radio=1");
+    youtube = TEXT("https://www.youtube.com/watch?v=sqoIAT1h-o8");
     if (youtubeBrowser)
     {
         youtubeBrowser->LoadURL(youtube);
