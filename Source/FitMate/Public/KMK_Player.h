@@ -51,4 +51,7 @@ public:
 #pragma endregion
 
 
+	UPROPERTY();
+	class UKJH_PlayerAnim* PlayerAnim;
+
 };

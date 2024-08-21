@@ -9,6 +9,7 @@
 #include "GameFramework/PlayerController.h"
 #include "KMK_InteractionActor.h"
 #include "KMK_MakeWidgetComponent.h"
+#include "KJH_PlayerAnim.h"
 // Sets default values
 AKMK_Player::AKMK_Player()
 {
@@ -32,6 +33,11 @@ void AKMK_Player::BeginPlay()
 			subSys->AddMappingContext(IMC_Mapping, 0);
 		}
 	}
+
+
+	PlayerAnim = Cast<UKJH_PlayerAnim>(GetMesh()->GetAnimInstance());
+
+
 	
 }
 
@@ -41,6 +47,10 @@ void AKMK_Player::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	// ÀÌµ¿ ÀÎÇ²
 	AddMovementInput(dir, speed * DeltaTime);
+
+	if(PlayerAnim)
+		PlayerAnim->Speed = dir.Size();
+
 	dir = FVector::ZeroVector;
 }
 
