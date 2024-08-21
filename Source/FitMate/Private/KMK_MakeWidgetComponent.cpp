@@ -42,7 +42,7 @@ void UKMK_MakeWidgetComponent::SetupInputBinding(class UEnhancedInputComponent* 
 
 void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& value)
 {
-	
+
 	// ���� Ʈ���̽��� ���� Ŭ���� ������Ʈ�� ����
 	FHitResult HitResult;
 	me->pc->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, HitResult);
@@ -54,9 +54,16 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 		AActor* HitActor = HitResult.GetActor();
 		if (HitActor)
 		{
-			GEngine->AddOnScreenDebugMessage(1, 1, FColor::Magenta, FString::Printf(TEXT("click")));
-			FString ActorName = HitActor->GetName();
 			FVector ActorLocation = HitActor->GetActorLocation();
+			if (HitActor->GetActorLabel().Contains("Media"))
+			{
+				FVector RandomLocation = FVector(HitActor->GetActorLocation().X,
+					FMath::RandRange(-500.f, 500.f),
+					FMath::RandRange(-500.f, 500.f));
+				GEngine->AddOnScreenDebugMessage(3, 1, FColor::Cyan, FString::Printf(TEXT("alfdjlskf")));
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SelectedParticle, RandomLocation);
+
+			}
 			count = 0;
 			auto* actorClass = Cast<AKMK_InteractionActor>(HitActor);
 			if (actorClass)
