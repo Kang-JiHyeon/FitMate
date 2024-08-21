@@ -28,7 +28,7 @@ public:
 	class UWebBrowser* youtubeBrowser;
 
 	UFUNCTION(BlueprintCallable)
-	void PlayYoutube(FString& url);
+	void PlayYoutube(FString& youtube);
 
 	// 메뉴, 재료, 레시피 작성
 	void SetTextLog(TMap<FString, FString> logs);

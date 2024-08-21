@@ -43,6 +43,7 @@ public:
 	
 #pragma region Food with AI
 	void ReqIngredient(FString Ingredients);
+	FString dataSet;
 #pragma endregion
 
 
