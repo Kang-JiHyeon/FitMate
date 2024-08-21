@@ -8,6 +8,7 @@
 #include "KJH_HttpManager.h"
 #include "KJH_GameModeBase.h"
 #include "KJH_UserInfoWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 
 void UKJH_LoginWidget::NativeConstruct()
@@ -65,7 +66,10 @@ void UKJH_LoginWidget::OnResponseLogin(bool bSuccessed)
 	if (bSuccessed)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("OnSuccessedLogin! Close Login Widget!"));
-		UserInfoWidget->OnClosedWidget();
+
+		UGameplayStatics::OpenLevel(GetWorld(), TEXT("Room"));
+
+		//UserInfoWidget->OnClosedWidget();
 	}
 	else
 	{
