@@ -6,6 +6,8 @@
 #include "../../../../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h"
 #include "KMK_InteractionActor.h"
 #include "KMK_Player.h"
+#include "WidgetFacComponent.h"
+#include "Components/WidgetComponent.h"
 
 // Sets default values for this component's properties
 UKMK_MakeWidgetComponent::UKMK_MakeWidgetComponent()
@@ -39,28 +41,27 @@ void UKMK_MakeWidgetComponent::SetupInputBinding(class UEnhancedInputComponent* 
 
 void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& value)
 {
-	GEngine->AddOnScreenDebugMessage(1, 1, FColor::Magenta, FString::Printf(TEXT("click")));
-	// ¶óÀÎ Æ®·¹ÀÌ½º¸¦ ÅëÇØ Å¬¸¯µÈ ¿ÀºêÁ§Æ®¸¦ °¨Áö
+	// GEngine->AddOnScreenDebugMessage(1, 1, FColor::Magenta, FString::Printf(TEXT("click")));
+	// ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	FHitResult HitResult;
 	me->pc->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, HitResult);
 
-	// È÷Æ®µÈ ¿ÀºêÁ§Æ®°¡ ÀÖ´ÂÁö È®ÀÎ
+	// ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 	if (HitResult.bBlockingHit)
 	{
-		// Å¬¸¯µÈ ¿ÀºêÁ§Æ®ÀÇ Á¤º¸ ¹Þ¾Æ¿À±â
+		// Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 		AActor* HitActor = HitResult.GetActor();
 		if (HitActor)
 		{
 			FString ActorName = HitActor->GetName();
-			FVector ActorLocation = HitActor->GetActorLocation();
-
-			auto* actorClass = Cast<AKMK_InteractionActor>(HitActor);
-			if (actorClass)
+			
+			UWidgetFacComponent* widgetComp = HitActor->FindComponentByClass<UWidgetFacComponent>();
+			if (widgetComp)
 			{
-				widget = CreateWidget(GetWorld(), actorClass->widgetFact);
+				widget = CreateWidget(GetWorld(), widgetComp->WidgetFactory);
 				if (widget)
 				{
-					SetViewPortLayer(widget, actorClass->layer);
+					widget->AddToViewport();
 				}
 			}
 		}
@@ -68,7 +69,7 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 }
 
 
-// ¿ÜºÎ¿¡¼­ È£Ãâ
+// ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ È£ï¿½ï¿½
 void UKMK_MakeWidgetComponent::SetViewPortLayer(UUserWidget* wid, int num)
 {
 	wid->AddToViewport(num);
