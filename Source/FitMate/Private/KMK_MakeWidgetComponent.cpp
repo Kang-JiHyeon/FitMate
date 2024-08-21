@@ -9,6 +9,9 @@
 #include "KMK_ReceipWidget.h"
 #include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "../../../../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraFunctionLibrary.h"
+#include "../../../../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraSystem.h"
+#include "../../../../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraComponent.h"
 
 // Sets default values for this component's properties
 UKMK_MakeWidgetComponent::UKMK_MakeWidgetComponent()
@@ -58,12 +61,18 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 			FVector ActorLocation = HitActor->GetActorLocation();
 			if (HitActor->GetActorLabel().Contains("Media"))
 			{
-				FVector RandomLocation = FVector(HitActor->GetActorLocation().X,
-					FMath::RandRange(-500.f, 500.f),
-					FMath::RandRange(-500.f, 500.f));
-				GEngine->AddOnScreenDebugMessage(3, 1, FColor::Cyan, FString::Printf(TEXT("alfdjlskf")));
-				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SelectedParticle, RandomLocation);
+				FVector RandomLocation = HitActor->GetActorLocation() + HitActor->GetActorRightVector() * FMath::RandRange(-500.f, 500.f) + HitActor->GetActorUpVector() * FMath::RandRange(-300.f, 300.f);
 
+				GEngine->AddOnScreenDebugMessage(3, 1, FColor::Cyan, FString::Printf(TEXT("HIIII")));
+				UNiagaraComponent* pa = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+					GetWorld(),                 // 월드 컨텍스트
+					SelectedParticle,           // 나이아가라 시스템
+					RandomLocation,             // 위치
+					FRotator(0, 45, -20),                // 회전값
+					FVector(1.0f),              // 스케일
+					true                       // 자동 파괴 여부
+				);
+				
 			}
 			count = 0;
 			auto* actorClass = Cast<AKMK_InteractionActor>(HitActor);

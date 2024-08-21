@@ -44,5 +44,5 @@ public:
 	void DeleteMyWidget(UUserWidget* wid);
 
 	UPROPERTY(EditAnywhere)
-	class UParticleSystem* SelectedParticle;
+	class UNiagaraSystem* SelectedParticle;
 };
