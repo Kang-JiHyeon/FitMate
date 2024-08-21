@@ -6,6 +6,7 @@
 #include "JsonParseLib.h"
 #include "KJH_JsonParseUserInfo.h"
 #include "KJH_GameInstance.h"
+#include "KMK_ParsecRecipe.h"
 
 // Sets default values
 AKJH_HttpManager::AKJH_HttpManager()
@@ -136,3 +137,45 @@ void AKJH_HttpManager::OnResLogin(FHttpRequestPtr Request, FHttpResponsePtr Resp
 	OnResponseLogin.Broadcast(bSuccessed);
 }
 
+#pragma region KMK
+
+FString url;
+void AKJH_HttpManager::ReqIngredient(FString Ingredients)
+{
+	FString tocken;
+	// Http 모듈을 생성
+	FHttpModule& httpModule = FHttpModule::Get();
+	TSharedRef<IHttpRequest> req = httpModule.CreateRequest();
+
+	TMap<FString, FString> data;
+	data.Add("userNo", "1");
+	data.Add("foodName", Ingredients);
+
+	// 요청 정보
+	req->SetURL("food");
+
+	req->SetVerb(TEXT("POST"));
+	req->SetHeader(TEXT("content-type"), TEXT("application/json"));
+	req->SetContentAsString(UJsonParseLib::MakeJson(data));
+
+	// 응답받을 함수
+	req->OnProcessRequestComplete().BindUObject(this, &AKJH_HttpManager::OnResIngredients);
+	// 서버에 요청
+	req->ProcessRequest();
+}
+
+void AKJH_HttpManager::OnResIngredients(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
+{
+	if (bConnectedSuccessfully)
+	{
+		FString respon = Response->GetContentAsString();
+		TMap<FString, FString> result = UKMK_ParsecRecipe::RecipeJsonParsec(respon);
+
+		UE_LOG(LogTemp, Warning, TEXT("OnResIngredient Successed!! : \n%s "), *respon);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("OnResIngredient Failed!!"));
+	}
+}
+#pragma endregion
