@@ -30,8 +30,8 @@ public:
 	UPROPERTY(meta=(BindWidget))
 	class UButton* ButtonSignIn;
 
-	//UPROPERTY(meta=(BindWidget))
-	//class UButton* ButtonRegister;
+	UPROPERTY(meta=(BindWidget))
+	class UButton* ButtonRegister;
 
 
 private:
@@ -40,7 +40,7 @@ private:
 	UFUNCTION()
 	void OnClickRegister();
 
-//public:
-//	UFUNCTION(BlueprintCallable)
-//	void SetHttpManager(class AKJH_HttpManager* Manager);
+
+	UFUNCTION()
+	void OnSuccessedLogin();
 };

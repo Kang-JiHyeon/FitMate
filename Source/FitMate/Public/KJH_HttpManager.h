@@ -8,6 +8,9 @@
 #include "Interfaces/IHttpResponse.h"
 #include "KJH_HttpManager.generated.h"
 
+DECLARE_MULTICAST_DELEGATE(FDelegateHttpManagerOnSuccessedLogin)
+
+
 UCLASS()
 class FITMATE_API AKJH_HttpManager : public AActor
 {
@@ -16,6 +19,8 @@ class FITMATE_API AKJH_HttpManager : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AKJH_HttpManager();
+
+	FDelegateHttpManagerOnSuccessedLogin OnSuccessedLogin;
 
 protected:
 	// Called when the game starts or when spawned

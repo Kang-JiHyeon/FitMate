@@ -135,6 +135,7 @@ void AKJH_HttpManager::OnResLogin(FHttpRequestPtr Request, FHttpResponsePtr Resp
 
 		if (result.IsEmpty() == false)
 		{
+			OnSuccessedLogin.Broadcast();
 			UE_LOG(LogTemp, Warning, TEXT("OnResLogin Successed!! : \n%s "), *result);
 		}
 		else

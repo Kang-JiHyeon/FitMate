@@ -12,17 +12,21 @@ void UKJH_LoginWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	ButtonSignIn->OnClicked.AddDynamic(this, &UKJH_LoginWidget::OnClickSignIn);
-	//ButtonRegister->OnClicked.AddDynamic(this, &UKJH_LoginWidget::OnClickRegister);
-
-	GetWorld()->GetFirstPlayerController()->SetShowMouseCursor(true);
-
+	// HttpManager
 	auto* gameModeBase = Cast<AKJH_GameModeBase>(GetWorld()->GetAuthGameMode());
 	if (gameModeBase && gameModeBase->HttpManager)
 	{
 		HttpManager = gameModeBase->HttpManager;
 	}
 
+	// Button 바인딩
+	ButtonSignIn->OnClicked.AddDynamic(this, &UKJH_LoginWidget::OnClickSignIn);
+	ButtonRegister->OnClicked.AddDynamic(this, &UKJH_LoginWidget::OnClickRegister);
+
+	GetWorld()->GetFirstPlayerController()->SetShowMouseCursor(true);
+
+	// 로그인 성공 델리게이트 바인딩
+	HttpManager->OnSuccessedLogin.AddUObject(this, &UKJH_LoginWidget::OnSuccessedLogin);
 }
 
 void UKJH_LoginWidget::OnClickSignIn()
@@ -39,4 +43,10 @@ void UKJH_LoginWidget::OnClickSignIn()
 void UKJH_LoginWidget::OnClickRegister()
 {
 
+}
+
+void UKJH_LoginWidget::OnSuccessedLogin()
+{
+	UE_LOG(LogTemp, Warning, TEXT("OnSuccessedLogin! Close Login Widget!"));
+	this->RemoveFromParent();
 }
