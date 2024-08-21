@@ -8,6 +8,7 @@
 #include "KMK_Player.h"
 #include "KMK_ReceipWidget.h"
 #include "Components/WidgetComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UKMK_MakeWidgetComponent::UKMK_MakeWidgetComponent()
@@ -57,10 +58,9 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 			FVector ActorLocation = HitActor->GetActorLocation();
 			if (HitActor->GetActorLabel().Contains("Media"))
 			{
-				FVector RandomLocation = FVector(HitActor->GetActorLocation().X,
-					FMath::RandRange(-500.f, 500.f),
-					FMath::RandRange(-500.f, 500.f));
-				GEngine->AddOnScreenDebugMessage(3, 1, FColor::Cyan, FString::Printf(TEXT("alfdjlskf")));
+				FVector RandomLocation = HitActor->GetActorLocation() + HitActor->GetActorRightVector() * FMath::RandRange(-500.f, 500.f) + HitActor->GetActorUpVector() * FMath::RandRange(-300.f, 300.f);
+					
+				GEngine->AddOnScreenDebugMessage(3, 1, FColor::Cyan, FString::Printf(TEXT("HIIII")));
 				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SelectedParticle, RandomLocation);
 
 			}
