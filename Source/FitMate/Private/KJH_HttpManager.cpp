@@ -8,6 +8,7 @@
 #include "KJH_GameInstance.h"
 #include "KMK_ParsecRecipe.h"
 
+
 // Sets default values
 AKJH_HttpManager::AKJH_HttpManager()
 {
@@ -22,7 +23,6 @@ void AKJH_HttpManager::BeginPlay()
 	Super::BeginPlay();
 	
 	GameInstance = Cast<UKJH_GameInstance>(GetWorld()->GetGameInstance());
-
 }
 
 /// <summary>
@@ -146,13 +146,13 @@ void AKJH_HttpManager::ReqIngredient(FString Ingredients)
 	// Http 모듈을 생성
 	FHttpModule& httpModule = FHttpModule::Get();
 	TSharedRef<IHttpRequest> req = httpModule.CreateRequest();
-
+	dataSet = Ingredients;
 	TMap<FString, FString> data;
-	data.Add("userNo", "1");
+	// data.Add("userNo", "1");
 	data.Add("foodName", Ingredients);
 
 	// 요청 정보
-	req->SetURL("food");
+	req->SetURL(GetURL("result"));
 
 	req->SetVerb(TEXT("POST"));
 	req->SetHeader(TEXT("content-type"), TEXT("application/json"));
@@ -169,9 +169,9 @@ void AKJH_HttpManager::OnResIngredients(FHttpRequestPtr Request, FHttpResponsePt
 	if (bConnectedSuccessfully)
 	{
 		FString respon = Response->GetContentAsString();
-		TMap<FString, FString> result = UKMK_ParsecRecipe::RecipeJsonParsec(respon);
-
-		UE_LOG(LogTemp, Warning, TEXT("OnResIngredient Successed!! : \n%s "), *respon);
+		TMap<FString, FString> result = UKMK_ParsecRecipe::RecipeJsonParsec(respon, dataSet);
+        GEngine->AddOnScreenDebugMessage(3, 10, FColor::Blue, FString::Printf(TEXT("%s"), *respon));
+        UE_LOG(LogTemp, Warning, TEXT("OnResIngredient Successed!! : \n%s "), *respon);
 	}
 	else
 	{
