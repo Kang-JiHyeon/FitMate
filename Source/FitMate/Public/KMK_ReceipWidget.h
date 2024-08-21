@@ -24,12 +24,6 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UMultiLineEditableTextBox* ReceEdiableText;
 
-    UPROPERTY(meta = (BindWidget))
-    class UWebBrowser* youtubeBrowser;
-
-	UFUNCTION(BlueprintCallable)
-	void PlayYoutube(FString& url);
-
 	// 메뉴, 재료, 레시피 작성
 	void SetTextLog(TMap<int, FString> logs);
 };
