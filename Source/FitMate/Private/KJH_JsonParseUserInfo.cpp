@@ -4,28 +4,33 @@
 #include "KJH_JsonParseUserInfo.h"
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonWriter.h"
+#include "KJH_GameInstance.h"
 
-FString UKJH_JsonParseUserInfo::JsonParseLogin(const FString& json)
+TMap<FString, FString> UKJH_JsonParseUserInfo::JsonParse(const FString& json)
 {
 	TSharedRef<TJsonReader<TCHAR>> reader = TJsonReaderFactory<TCHAR>::Create(json);
 	TSharedPtr<FJsonObject> response = MakeShareable(new FJsonObject());
 
-	FString result;
+	TMap<FString, FString> result;
 	if (FJsonSerializer::Deserialize(reader, response))
 	{
-		TArray<TSharedPtr<FJsonValue>> parseDataList = response->GetArrayField(TEXT("userInfo"));
+		TSharedPtr<FJsonObject> parseData = response->GetObjectField(TEXT("userInfo"));
 
-		if (parseDataList.Num() <= 0)
+		if (parseData == nullptr)
 		{
 			return result;
 		}
 
-		for (TSharedPtr<FJsonValue> data : parseDataList)
+		FString userId = parseData->GetStringField("userId");
+		FString userName = parseData->GetStringField("userName");
+
+		if (userId.IsEmpty() || userName.IsEmpty())
 		{
-			FString userName = data->AsObject()->GetStringField("userName");
-			FString userId = data->AsObject()->GetStringField("userId");
-			result.Append(FString::Printf(TEXT("userName : %s / userId : %s\n"), *userName, *userId));
+			return result;
 		}
+
+		result.Add("UserId", userId);
+		result.Add("UserName", userName);
 	}
 	return result;
 }

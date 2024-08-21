@@ -5,6 +5,7 @@
 #include "HttpModule.h"
 #include "JsonParseLib.h"
 #include "KJH_JsonParseUserInfo.h"
+#include "KJH_GameInstance.h"
 
 // Sets default values
 AKJH_HttpManager::AKJH_HttpManager()
@@ -18,24 +19,9 @@ AKJH_HttpManager::AKJH_HttpManager()
 void AKJH_HttpManager::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	GameInstance = Cast<UKJH_GameInstance>(GetWorld()->GetGameInstance());
 
-	TMap<FString, FString> data;
-
-	// 회원가입
-    data.Add("userId", "user02");
-    data.Add("userPass", "pass01");
-    data.Add("userName", "Kang02");
-    data.Add("userEmail", "user01@naver.com");
-    data.Add("role", "USER");
-
-	//ReqSignUp(UJsonParseLib::MakeJson(data));
-
-	//// 로그인
-    //data.Add("id", "user02");
-    //data.Add("pass", "pass01");
-    //ReqLogin(UJsonParseLib::MakeJson(data));
-
-	UE_LOG(LogTemp, Warning, TEXT("Request Data : %s"), *UJsonParseLib::MakeJson(data));
 }
 
 /// <summary>
@@ -52,8 +38,6 @@ void AKJH_HttpManager::ReqSignUp(FString Id, FString Password, FString UserName)
 	data.Add("userId", Id);
 	data.Add("userPass", Password);
 	data.Add("userName", UserName);
-	data.Add("userEmail", "user01@naver.com");
-	data.Add("role", "USER");
 
 	// 요청 정보
 	req->SetURL(GetURL("signup"));
@@ -81,6 +65,8 @@ void AKJH_HttpManager::ReqLogin(FString Id, FString Password)
 	data.Add("id", Id);
     data.Add("pass", Password);
 
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *UJsonParseLib::MakeJson(data));
+
 	// 요청 정보
 	req->SetURL(GetURL("login"));
 	req->SetVerb(TEXT("PUT"));
@@ -92,7 +78,7 @@ void AKJH_HttpManager::ReqLogin(FString Id, FString Password)
 	// 서버에 요청
 	req->ProcessRequest();
 }
-//================== 응답 ==========================
+
 /// <summary>
 /// 회원가입 응답
 /// </summary>
@@ -106,13 +92,14 @@ void AKJH_HttpManager::OnResSignUp(FHttpRequestPtr Request, FHttpResponsePtr Res
 	if (bConnectedSuccessfully)
 	{
 		FString result = Response->GetContentAsString();
-
 		UE_LOG(LogTemp, Warning, TEXT("OnResSignUp Successed!! : \n%s "), *result);
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("OnResSignUp Failed!!"));
 	}
+
+	OnResponseRegister.Broadcast(bConnectedSuccessfully);
 }
 
 /// <summary>
@@ -125,69 +112,27 @@ void AKJH_HttpManager::OnResLogin(FHttpRequestPtr Request, FHttpResponsePtr Resp
 {
 	UE_LOG(LogTemp, Warning, TEXT("OnResLogin Call!!"));
 
+	bool bSuccessed = false;
 	if (bConnectedSuccessfully)
     {
         FString res = Response->GetContentAsString();
-		FString result = UKJH_JsonParseUserInfo::JsonParseLogin(res);
+		TMap<FString, FString> result = UKJH_JsonParseUserInfo::JsonParse(res);
 
-		if (result.IsEmpty() == false)
+		if (!result.IsEmpty() || result.Contains("UserId") || result.Contains("UserName"))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("OnResLogin Successed!! : \n%s "), *result);
+			bSuccessed = true;
+			GameInstance->SetUserInfo(result["UserId"], result["UserName"]);
 		}
 		else
 		{
 			UE_LOG(LogTemp, Warning, TEXT("OnResLogin Empty!!"));
 		}
-
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("OnResLogin Failed!!"));
 	}
 
+	OnResponseLogin.Broadcast(bSuccessed);
 }
-#pragma region KMK
-
-FString url;
-void AKJH_HttpManager::ReqIngredient(FString Ingredients)
-{
-	FString tocken ;
-	// Http 모듈을 생성
-	FHttpModule& httpModule = FHttpModule::Get();
-	TSharedRef<IHttpRequest> req = httpModule.CreateRequest();
-
-	TMap<FString, FString> data;
-	data.Add("userNo", "1");
-	data.Add("foodName", Ingredients);
-
-	// 요청 정보
-	req->SetURL("food");
-	
-	req->SetVerb(TEXT("POST"));
-	req->SetHeader(TEXT("content-type"), TEXT("application/json"));
-	req->SetContentAsString(UJsonParseLib::MakeJson(data));
-
-	// 응답받을 함수
-	req->OnProcessRequestComplete().BindUObject(this, &AKJH_HttpManager::OnResIngredients);
-	// 서버에 요청
-	req->ProcessRequest();
-}
-
-void AKJH_HttpManager::OnResIngredients(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
-{
-	UE_LOG(LogTemp, Warning, TEXT("OnResIngredient"));
-
-	if (bConnectedSuccessfully)
-	{
-		FString result = Response->GetContentAsString();
-
-		UE_LOG(LogTemp, Warning, TEXT("OnResIngredient Successed!! : \n%s "), *result);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("OnResIngredient Failed!!"));
-	}
-}
-#pragma endregion
-
 
