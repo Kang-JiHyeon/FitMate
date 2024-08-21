@@ -28,12 +28,18 @@ public:
 	UPROPERTY(meta=(BindWidget))
 	class UImage* MediaRenderImage;
 
-	UPROPERTY(meta=(BindWidget))
-	class UButton* ButtonSend;
+	//UPROPERTY(meta=(BindWidget))
+	//class UButton* ButtonSend;
+
 
 private:
+
+	UFUNCTION(BlueprintCallable)
 	void OpenAndPlayVideo();
 
 	UFUNCTION()
 	void OnClickSend();
+
+	UFUNCTION(BlueprintCallable)
+	void OnInitialize();
 };

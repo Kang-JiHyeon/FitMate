@@ -13,34 +13,55 @@ void UKJH_MediaWidget::NativeConstruct()
 {
     Super::NativeConstruct();
 
-    ButtonSend->OnClicked.AddDynamic(this, &UKJH_MediaWidget::OnClickSend);
+    //ButtonSend->OnClicked.AddDynamic(this, &UKJH_MediaWidget::OnClickSend);
 
-    OpenAndPlayVideo();
+    //OpenAndPlayVideo();
 }
 
 void UKJH_MediaWidget::OpenAndPlayVideo()
 {
+    OnInitialize();
+
     if (MyMediaPlayer && MyMediaTexture)
     {
         MyMediaTexture->SetMediaPlayer(MyMediaPlayer);
 
-        FString FilePath = UKJH_FileDialogLib::OpenFileDialog();
-        if (!FilePath.IsEmpty())
+        FString filePath = UKJH_FileDialogLib::OpenFileDialog();
+        if (!filePath.IsEmpty())
         {
-            MyMediaPlayer->OpenFile(FilePath);
+            MyMediaPlayer->OpenFile(filePath);
             MyMediaPlayer->Play();
+
+            if (MediaRenderImage)
+            {
+                UMaterialInstanceDynamic* dynamicMaterial = MediaRenderImage->GetDynamicMaterial();
+
+                if (dynamicMaterial)
+                    dynamicMaterial->SetTextureParameterValue(FName("MediaTexture"), MyMediaTexture);
+            }
         }
     }
 
-    UMaterialInstanceDynamic* DynamicMaterial = MediaRenderImage->GetDynamicMaterial();
-
-    if (DynamicMaterial)
-        DynamicMaterial->SetTextureParameterValue(FName("MediaTexture"), MyMediaTexture);
 }
 
 void UKJH_MediaWidget::OnClickSend()
 {
     // todo : 저장하기
     
-    this->RemoveFromParent();
+    //this->RemoveFromParent();
+}
+
+void UKJH_MediaWidget::OnInitialize()
+{
+    if (MyMediaPlayer)
+    {
+        MyMediaPlayer->Pause();
+        if (MediaRenderImage)
+        {
+            UMaterialInstanceDynamic* dynamicMaterial = MediaRenderImage->GetDynamicMaterial();
+
+            if (dynamicMaterial)
+                dynamicMaterial->SetTextureParameterValue(FName("MediaTexture"), nullptr);
+        }
+    }
 }
