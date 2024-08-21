@@ -28,9 +28,14 @@ public:
 	UPROPERTY(meta=(BindWidget))
 	class UImage* MediaRenderImage;
 
-	//UPROPERTY(meta=(BindWidget))
-	//class UButton* ButtonSend;
+	UPROPERTY(BlueprintReadOnly)
+	FString FilePath;
 
+private:
+	UPROPERTY()
+	class AKJH_GameModeBase* MyGameMode;
+
+	
 
 private:
 

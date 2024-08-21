@@ -15,6 +15,7 @@ class FITMATE_API UKJH_GameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(BlueprintReadOnly)
 	FString UserId;
 
 public:
@@ -25,6 +26,5 @@ public:
 	UPROPERTY()
 	class USoundBase* bgm = nullptr;
 	void SetUserInfo(FString userId);
-
 
 };

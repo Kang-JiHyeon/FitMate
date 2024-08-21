@@ -7,15 +7,14 @@
 #include "MediaPlayer.h"
 #include "MediaTexture.h"
 #include "Components/Button.h"
+#include "KJH_GameModeBase.h"
 
 
 void UKJH_MediaWidget::NativeConstruct()
 {
     Super::NativeConstruct();
 
-    //ButtonSend->OnClicked.AddDynamic(this, &UKJH_MediaWidget::OnClickSend);
-
-    //OpenAndPlayVideo();
+    MyGameMode = Cast<AKJH_GameModeBase>(GetWorld()->GetAuthGameMode());
 }
 
 void UKJH_MediaWidget::OpenAndPlayVideo()
@@ -26,10 +25,10 @@ void UKJH_MediaWidget::OpenAndPlayVideo()
     {
         MyMediaTexture->SetMediaPlayer(MyMediaPlayer);
 
-        FString filePath = UKJH_FileDialogLib::OpenFileDialog();
-        if (!filePath.IsEmpty())
+        FilePath = UKJH_FileDialogLib::OpenFileDialog();
+        if (!FilePath.IsEmpty())
         {
-            MyMediaPlayer->OpenFile(filePath);
+            MyMediaPlayer->OpenFile(FilePath);
             MyMediaPlayer->Play();
 
             if (MediaRenderImage)
@@ -46,9 +45,8 @@ void UKJH_MediaWidget::OpenAndPlayVideo()
 
 void UKJH_MediaWidget::OnClickSend()
 {
-    // todo : 저장하기
-    
-    //this->RemoveFromParent();
+    if(MyGameMode)
+        MyGameMode->SaveVideoPath(FilePath);
 }
 
 void UKJH_MediaWidget::OnInitialize()
