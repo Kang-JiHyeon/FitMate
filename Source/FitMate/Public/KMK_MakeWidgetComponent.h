@@ -36,7 +36,7 @@ public:
 	UPROPERTY()
 	class UUserWidget* widget;
 	
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void SetViewPortLayer(UUserWidget* wid, int num);
 	UFUNCTION(BlueprintCallable)
 	void DeleteMyWidget();

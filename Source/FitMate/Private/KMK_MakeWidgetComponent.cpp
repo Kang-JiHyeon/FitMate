@@ -8,6 +8,7 @@
 #include "KMK_Player.h"
 #include "KMK_ReceipWidget.h"
 #include "Components/WidgetComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UKMK_MakeWidgetComponent::UKMK_MakeWidgetComponent()
