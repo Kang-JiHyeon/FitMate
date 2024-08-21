@@ -23,7 +23,6 @@ void UKJH_LoginWidget::NativeConstruct()
 		HttpManager = gameModeBase->HttpManager;
 	}
 
-
 }
 
 void UKJH_LoginWidget::OnClickSignIn()
