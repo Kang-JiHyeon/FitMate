@@ -12,8 +12,8 @@ TMap<FString, FString> UKMK_ParsecRecipe::RecipeJsonParsec(const FString& json, 
 
 	if (FJsonSerializer::Deserialize(reader, response))
 	{
-		FString menu = response->GetStringField("food_name");
-		FString recipe = response->GetStringField("recipe");
+		FString menu = response->GetStringField(TEXT("food_name"));
+		FString recipe = response->GetStringField(TEXT("recipe"));
 
 		// 서버에서 주는 주소값
 		result.Add("Menu", menu);

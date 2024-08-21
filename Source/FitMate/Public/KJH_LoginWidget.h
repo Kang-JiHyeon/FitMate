@@ -53,4 +53,6 @@ private:
 
 	UFUNCTION()
 	void OnResponseLogin(bool bResult);
+
+	void SetHttpManager();
 };

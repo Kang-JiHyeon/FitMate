@@ -38,11 +38,11 @@ void AKJH_HttpManager::ReqSignUp(FString Password, FString UserName)
 	TSharedRef<IHttpRequest> req = httpModule.CreateRequest();
 
 	TMap<FString, FString> data;
-	data.Add("userPass", Password);
-	data.Add("userName", UserName);
+	data.Add(TEXT("userPass"), Password);
+	data.Add(TEXT("userName"), UserName);
 
 	// 요청 정보
-	req->SetURL(GetURL("signup"));
+	req->SetURL(GetURL(TEXT("signup")));
 	req->SetVerb(TEXT("POST"));
 	req->SetHeader(TEXT("content-type"), TEXT("application/json"));
 	req->SetContentAsString(UJsonParseLib::MakeJson(data));
@@ -64,13 +64,13 @@ void AKJH_HttpManager::ReqLogin(FString Id, FString Password)
 	TSharedRef<IHttpRequest> req = httpModule.CreateRequest();
 
 	TMap<FString, FString> data;
-	data.Add("userName", Id);
-    data.Add("userPass", Password);
+	data.Add(TEXT("userName"), Id);
+    data.Add(TEXT("userPass"), Password);
 
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *UJsonParseLib::MakeJson(data));
 
 	// 요청 정보
-	req->SetURL(GetURL("login"));
+	req->SetURL(GetURL(TEXT("login")));
 	req->SetVerb(TEXT("POST"));
 	req->SetHeader(TEXT("content-type"), TEXT("application/json"));
 	req->SetContentAsString(UJsonParseLib::MakeJson(data));
@@ -123,10 +123,10 @@ void AKJH_HttpManager::OnResLogin(FHttpRequestPtr Request, FHttpResponsePtr Resp
         FString res = Response->GetContentAsString();
 		TMap<FString, FString> result = UKJH_JsonParseUserInfo::JsonParseLogin(res);
 
-		if (!result.IsEmpty() || result.Contains("userId") || result.Contains("succeed"))
+		if (!result.IsEmpty() || result.Contains(TEXT("userId")) || result.Contains(TEXT("succeed")))
 		{
-			bSuccessed = result["succeed"] == "true";
-			GameInstance->SetUserInfo(result["userId"]);
+			bSuccessed = result[TEXT("succeed")] == TEXT("true");
+			GameInstance->SetUserInfo(result[TEXT("userId")]);
 		}
 		else
 		{
@@ -155,10 +155,10 @@ void AKJH_HttpManager::ReqIngredient(FString Ingredients)
 	FString originalString = Ingredients;
 	FString modifiedString = originalString.Replace(TEXT(" "), TEXT(""));
 
-	data.Add("ingredient", modifiedString);
+	data.Add(TEXT("ingredient"), modifiedString);
 
 	// 요청 정보
-	req->SetURL(GetURL("result"));
+	req->SetURL(GetURL(TEXT("result")));
 	req->SetVerb(TEXT("POST"));
 	req->SetHeader(TEXT("content-type"), TEXT("application/json"));
 	req->SetContentAsString(UJsonParseLib::MakeJson(data));
@@ -175,7 +175,7 @@ void AKJH_HttpManager::OnResIngredients(FHttpRequestPtr Request, FHttpResponsePt
 	{
 		FString respon = Response->GetContentAsString();
 		TMap<FString, FString> result = UKMK_ParsecRecipe::RecipeJsonParsec(respon, dataSet);
-        GEngine->AddOnScreenDebugMessage(3, 10, FColor::Blue, FString::Printf(TEXT("%s"), *respon));
+        // GEngine->AddOnScreenDebugMessage(3, 10, FColor::Blue, FString::Printf(TEXT("%s"), *respon));
         UE_LOG(LogTemp, Warning, TEXT("OnResIngredient Successed!! : \n%s "), *respon);
 		// 플레이어 컴포넌트에 보내줘야함
 		auto* playerComp = GetWorld()->GetFirstPlayerController()->GetPawn()->FindComponentByClass<UKMK_MakeWidgetComponent>();

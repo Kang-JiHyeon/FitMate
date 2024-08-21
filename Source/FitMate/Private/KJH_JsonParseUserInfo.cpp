@@ -40,8 +40,8 @@ TMap<FString, FString> UKJH_JsonParseUserInfo::JsonParseLogin(const FString& jso
 	TMap<FString, FString> result;
 	if (FJsonSerializer::Deserialize(reader, response))
 	{
-		FString userId = response->GetStringField("userName");
-		bool succeed = response->GetBoolField("succeed");
+		FString userId = response->GetStringField(TEXT("userName"));
+		bool succeed = response->GetBoolField(TEXT("succeed"));
 
 		if (userId.IsEmpty())
 		{

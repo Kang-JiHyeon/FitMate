@@ -59,7 +59,7 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 		if (HitActor)
 		{
 			FVector ActorLocation = HitActor->GetActorLocation();
-			if (HitActor->GetActorLabel().Contains("Media"))
+			if (HitActor->ActorHasTag("Media"))
 			{
 				FVector RandomLocation = HitActor->GetActorLocation() + HitActor->GetActorRightVector() * FMath::RandRange(-500.f, 500.f) + HitActor->GetActorUpVector() * FMath::RandRange(-300.f, 300.f);
 

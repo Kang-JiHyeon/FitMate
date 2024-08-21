@@ -14,15 +14,8 @@ void UKJH_RegisterWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	// HttpManager
-	auto* gameModeBase = Cast<AKJH_GameModeBase>(GetWorld()->GetAuthGameMode());
-	if (gameModeBase && gameModeBase->HttpManager)
-	{
-		HttpManager = gameModeBase->HttpManager;
-	}
+	SetHttpManager();
 
-	// 회원가입 델리게이트 바인딩
-	HttpManager->OnResponseRegister.AddUObject(this, &UKJH_RegisterWidget::OnResponseSignUp);
 
 	// 버튼 바인딩
 	ButtonSignUp->OnClicked.AddDynamic(this, &UKJH_RegisterWidget::OnClickSignUp);
@@ -32,7 +25,10 @@ void UKJH_RegisterWidget::NativeConstruct()
 void UKJH_RegisterWidget::OnClickSignUp()
 {
 	// 통신
-	if(HttpManager == nullptr) return;
+	if (HttpManager == nullptr)
+	{
+		SetHttpManager();
+	}
 
 	FString id = EditTextId->GetText().ToString();
 	FString password = EditTextPassword->GetText().ToString();
@@ -63,6 +59,19 @@ void UKJH_RegisterWidget::OnResponseSignUp(bool bSucceessed)
 	else
 	{
 		TextFailedMsg->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void UKJH_RegisterWidget::SetHttpManager()
+{
+	// HttpManager
+	auto* gameModeBase = Cast<AKJH_GameModeBase>(GetWorld()->GetAuthGameMode());
+	if (gameModeBase && gameModeBase->HttpManager)
+	{
+		HttpManager = gameModeBase->HttpManager;
+
+		// 회원가입 델리게이트 바인딩
+		HttpManager->OnResponseRegister.AddUObject(this, &UKJH_RegisterWidget::OnResponseSignUp);
 	}
 }
 

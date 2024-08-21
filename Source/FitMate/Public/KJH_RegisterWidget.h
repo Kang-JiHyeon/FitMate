@@ -51,4 +51,6 @@ private:
 	UFUNCTION()
 	void OnResponseSignUp(bool bSucceessed);
 
+	void SetHttpManager();
+
 };

@@ -10,7 +10,7 @@ public class FitMate : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "UMG", "HTTP", "Json", "JsonUtilities", "WebBrowser", "WebBrowserWidget",  "MediaAssets", "Niagara" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+		// PrivateDependencyModuleNames.AddRange(new string[] {  });
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

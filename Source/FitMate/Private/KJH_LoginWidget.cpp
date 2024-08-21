@@ -15,18 +15,11 @@ void UKJH_LoginWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	// HttpManager
-	auto* gameModeBase = Cast<AKJH_GameModeBase>(GetWorld()->GetAuthGameMode());
-	if (gameModeBase && gameModeBase->HttpManager)
-	{
-		HttpManager = gameModeBase->HttpManager;
-	}
+	SetHttpManager();
 
 	// Button ¹ÙÀÎµù
 	ButtonSignIn->OnClicked.AddDynamic(this, &UKJH_LoginWidget::OnClickSignIn);
 	ButtonRegister->OnClicked.AddDynamic(this, &UKJH_LoginWidget::OnClickRegister);
-
-	HttpManager->OnResponseLogin.AddUObject(this, &UKJH_LoginWidget::OnResponseLogin);
 }
 
 void UKJH_LoginWidget::SetUserInfoWidget(UKJH_UserInfoWidget* Widget)
@@ -45,8 +38,10 @@ void UKJH_LoginWidget::OnInitialize()
 
 void UKJH_LoginWidget::OnClickSignIn()
 {
-	if(HttpManager == nullptr)
-		return;
+	if (HttpManager == nullptr)
+	{
+		SetHttpManager();
+	}
 
 	TextLoginFailed->SetVisibility(ESlateVisibility::Hidden);
 
@@ -75,4 +70,17 @@ void UKJH_LoginWidget::OnResponseLogin(bool bSuccessed)
 	{
 		TextLoginFailed->SetVisibility(ESlateVisibility::Visible);
 	}
+}
+
+void UKJH_LoginWidget::SetHttpManager()
+{
+	// HttpManager
+	auto* gameModeBase = Cast<AKJH_GameModeBase>(GetWorld()->GetAuthGameMode());
+	if (gameModeBase && gameModeBase->HttpManager)
+	{
+		HttpManager = gameModeBase->HttpManager;
+
+		HttpManager->OnResponseLogin.AddUObject(this, &UKJH_LoginWidget::OnResponseLogin);
+	}
+
 }
