@@ -40,4 +40,7 @@ public:
 	void SetViewPortLayer(UUserWidget* wid, int num);
 	UFUNCTION(BlueprintCallable)
 	void DeleteMyWidget();
+
+	UPROPERTY(EditAnywhere)
+	class UParticleSystem* SelectedParticle;
 };

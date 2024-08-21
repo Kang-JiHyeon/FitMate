@@ -19,5 +19,8 @@ public:
 	FString UserName;
 
 public:
+
+
 	void SetUserInfo(FString userId, FString userName);
+
 };
