@@ -23,7 +23,12 @@ FString UKJH_JsonParseUserInfo::JsonParse(const FString& json)
 		FString userId = parseData->GetStringField("userId");
 		FString userName = parseData->GetStringField("userName");
 
-		result.Append(FString::Printf(TEXT("userName : %s / userId : %s\n"), *userName, *userId));
+		if (userId.IsEmpty() || userName.IsEmpty())
+		{
+			return result;
+		}
+
+		result.Append(FString::Printf(TEXT("userName : %s, userId : %s\n"), *userName, *userId));
 	}
 	return result;
 }

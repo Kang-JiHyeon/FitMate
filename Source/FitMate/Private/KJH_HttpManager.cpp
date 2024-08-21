@@ -83,7 +83,6 @@ void AKJH_HttpManager::ReqLogin(FString Id, FString Password)
 
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *UJsonParseLib::MakeJson(data));
 
-
 	// 요청 정보
 	req->SetURL(GetURL("login"));
 	req->SetVerb(TEXT("PUT"));
@@ -109,13 +108,15 @@ void AKJH_HttpManager::OnResSignUp(FHttpRequestPtr Request, FHttpResponsePtr Res
 	if (bConnectedSuccessfully)
 	{
 		FString result = Response->GetContentAsString();
-
 		UE_LOG(LogTemp, Warning, TEXT("OnResSignUp Successed!! : \n%s "), *result);
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("OnResSignUp Failed!!"));
 	}
+
+	OnResponseRegister.Broadcast(bConnectedSuccessfully);
+
 }
 
 /// <summary>
@@ -128,6 +129,7 @@ void AKJH_HttpManager::OnResLogin(FHttpRequestPtr Request, FHttpResponsePtr Resp
 {
 	UE_LOG(LogTemp, Warning, TEXT("OnResLogin Call!!"));
 
+	bool bSuccessed = false;
 	if (bConnectedSuccessfully)
     {
         FString res = Response->GetContentAsString();
@@ -135,19 +137,19 @@ void AKJH_HttpManager::OnResLogin(FHttpRequestPtr Request, FHttpResponsePtr Resp
 
 		if (result.IsEmpty() == false)
 		{
-			OnSuccessedLogin.Broadcast();
+			bSuccessed = true;
 			UE_LOG(LogTemp, Warning, TEXT("OnResLogin Successed!! : \n%s "), *result);
 		}
 		else
 		{
 			UE_LOG(LogTemp, Warning, TEXT("OnResLogin Empty!!"));
 		}
-
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("OnResLogin Failed!!"));
 	}
 
+	OnResponseLogin.Broadcast(bSuccessed);
 }
 

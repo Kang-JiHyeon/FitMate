@@ -4,19 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "KJH_LoginWidget.generated.h"
+#include "KJH_RegisterWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FITMATE_API UKJH_LoginWidget : public UUserWidget
+class FITMATE_API UKJH_RegisterWidget : public UUserWidget
 {
 	GENERATED_BODY()
-
+	
 public:
 	virtual void NativeConstruct() override;
-
 	
 private:
 	UPROPERTY()
@@ -29,28 +28,29 @@ public:
 
 	UPROPERTY(meta=(BindWidget))
 	class UEditableText* EditTextId;
-
 	UPROPERTY(meta=(BindWidget))
 	class UEditableText* EditTextPassword;
+	UPROPERTY(meta=(BindWidget))
+	class UEditableText* EditTextUserName;
 	
 	UPROPERTY(meta=(BindWidget))
-	class UButton* ButtonSignIn;
+	class UButton* ButtonSignUp;
+	UPROPERTY(meta=(BindWidget))
+	class UButton* ButtonLogin;
 
 	UPROPERTY(meta=(BindWidget))
-	class UButton* ButtonRegister;
-
-	UPROPERTY(meta=(BindWidget))
-	class UTextBlock* TextLoginFailed;
+	class UTextBlock* TextFailedMsg;
 
 	void SetUserInfoWidget(class UKJH_UserInfoWidget* Widget);
-	void OnInitialize();
 
+	void OnInitialize();
 private:
 	UFUNCTION()
-	void OnClickSignIn();
+	void OnClickSignUp();
 	UFUNCTION()
-	void OnClickRegister();
+	void OnChangedLogin();
 
 	UFUNCTION()
-	void OnResponseLogin(bool bResult);
+	void OnResponseSignUp(bool bSucceessed);
+
 };
