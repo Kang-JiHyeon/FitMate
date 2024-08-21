@@ -34,7 +34,12 @@ int32 UCSW_UtilsLib::PlusPoint(int32 Num)
 int32 UCSW_UtilsLib::MinusPoint(int32 Num)
 {
 	FString FilePath = FPaths::ProjectPersistentDownloadDir() + "/Point.txt";
-	int32 point = ReadPoint() - Num;
+	int32 point = ReadPoint();
+
+	if (point - Num <= 0	)
+		return point;
+	else
+		point -= Num;
 	FString InContent = FString::FromInt(point);
 	
 	FFileHelper::SaveStringToFile(InContent, *FilePath);

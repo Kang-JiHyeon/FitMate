@@ -38,7 +38,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	class UUserWidget* RecipWidget;
 	
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void SetViewPortLayer(UUserWidget* wid, int num);
 	UFUNCTION(BlueprintCallable)
 	void DeleteMyWidget(UUserWidget* wid);
