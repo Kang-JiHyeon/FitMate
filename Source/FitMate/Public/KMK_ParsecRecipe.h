@@ -15,5 +15,5 @@ class FITMATE_API UKMK_ParsecRecipe : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 
 public:
-	static TMap<int, FString>  RecipeJsonParsec(const FString& json);
+	static TMap<FString, FString>  RecipeJsonParsec(const FString& json);
 };

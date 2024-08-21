@@ -3,12 +3,13 @@
 
 #include "KMK_ParsecRecipe.h"
 
-TMap<int, FString> UKMK_ParsecRecipe::RecipeJsonParsec(const FString& json)
+TMap<FString, FString> UKMK_ParsecRecipe::RecipeJsonParsec(const FString& json)
 {
 	TSharedRef<TJsonReader<TCHAR>> reader = TJsonReaderFactory<TCHAR>::Create(json);
 	TSharedPtr<FJsonObject> response = MakeShareable(new FJsonObject());
 
-	TMap<int, FString> result;
+	TMap<FString, FString> result;
+
 	if (FJsonSerializer::Deserialize(reader, response))
 	{
 		// 받아오는 값
@@ -24,9 +25,10 @@ TMap<int, FString> UKMK_ParsecRecipe::RecipeJsonParsec(const FString& json)
 			FString menu = data->AsObject()->GetStringField("Menu");
 			FString ingredient = data->AsObject()->GetStringField("ingredient");
 			FString recipe = data->AsObject()->GetStringField("Recipe");
-			result.Add(0, menu);
-			result.Add(1, ingredient);
-			result.Add(2, recipe);
+			// 서버에서 주는 주소값
+			result.Add("menu", menu);
+			result.Add("", ingredient);
+			result.Add("", recipe);
 		}
 	}
 	return result;
