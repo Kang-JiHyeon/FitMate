@@ -7,6 +7,7 @@
 #include "KMK_InteractionActor.h"
 #include "KMK_Player.h"
 #include "KMK_ReceipWidget.h"
+#include "Components/WidgetComponent.h"
 
 // Sets default values for this component's properties
 UKMK_MakeWidgetComponent::UKMK_MakeWidgetComponent()
@@ -35,21 +36,21 @@ void UKMK_MakeWidgetComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 
 void UKMK_MakeWidgetComponent::SetupInputBinding(class UEnhancedInputComponent* input)
 {
-	// Å°ÀÔ·Â ¹ÙÀÎµù
+	// Å°ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½Îµï¿½
 	input->BindAction(IA_Interaction, ETriggerEvent::Triggered, this, &UKMK_MakeWidgetComponent::InputInteraction);
 }
 
 void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& value)
 {
 	
-	// ¶óÀÎ Æ®·¹ÀÌ½º¸¦ ÅëÇØ Å¬¸¯µÈ ¿ÀºêÁ§Æ®¸¦ °¨Áö
+	// ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	FHitResult HitResult;
 	me->pc->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, HitResult);
 
-	// È÷Æ®µÈ ¿ÀºêÁ§Æ®°¡ ÀÖ´ÂÁö È®ÀÎ
+	// ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 	if (HitResult.bBlockingHit)
 	{
-		// Å¬¸¯µÈ ¿ÀºêÁ§Æ®ÀÇ Á¤º¸ ¹Þ¾Æ¿À±â
+		// Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 		AActor* HitActor = HitResult.GetActor();
 		if (HitActor)
 		{
@@ -76,11 +77,17 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 					}
 				}
 			}
+			UWidgetComponent* widgetComp = HitActor->FindComponentByClass<UWidgetComponent>();
+			if (widgetComp)
+			{
+				widget = CreateWidget(GetWorld(), widgetComp->GetWidgetClass());
+				SetViewPortLayer(widget, 0);
+			}
 		}
 	}
 }
 
-// ¿ÜºÎ¿¡¼­ È£Ãâ
+// ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ È£ï¿½ï¿½
 void UKMK_MakeWidgetComponent::SetViewPortLayer(UUserWidget* wid, int num)
 {
 	wid->AddToViewport(num);
