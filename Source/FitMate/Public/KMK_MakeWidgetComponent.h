@@ -31,7 +31,7 @@ public:
 	void SetupInputBinding(class UEnhancedInputComponent* input);
 
 	void InputInteraction(const struct FInputActionValue& value);
-
+	UPROPERTY()
 	int count = 0;
 
 	class UUserWidget* widget;

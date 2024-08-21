@@ -34,12 +34,13 @@ void UKMK_MakeWidgetComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 
 void UKMK_MakeWidgetComponent::SetupInputBinding(class UEnhancedInputComponent* input)
 {
+	// 키입력 바인딩
 	input->BindAction(IA_Interaction, ETriggerEvent::Triggered, this, &UKMK_MakeWidgetComponent::InputInteraction);
 }
 
 void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& value)
 {
-	GEngine->AddOnScreenDebugMessage(1, 1, FColor::Magenta, FString::Printf(TEXT("click")));
+	
 	// 라인 트레이스를 통해 클릭된 오브젝트를 감지
 	FHitResult HitResult;
 	me->pc->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, HitResult);
@@ -51,9 +52,10 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 		AActor* HitActor = HitResult.GetActor();
 		if (HitActor)
 		{
+			GEngine->AddOnScreenDebugMessage(1, 1, FColor::Magenta, FString::Printf(TEXT("click")));
 			FString ActorName = HitActor->GetName();
 			FVector ActorLocation = HitActor->GetActorLocation();
-
+			count = 0;
 			auto* actorClass = Cast<AKMK_InteractionActor>(HitActor);
 			if (actorClass)
 			{

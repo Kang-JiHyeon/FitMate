@@ -6,14 +6,18 @@
 #include "Blueprint/UserWidget.h"
 #include "Internationalization/Text.h"
 #include "Components/Button.h"
+#include "KMK_MakeWidgetComponent.h"
 
 void UKMK_UserWidget::NativeConstruct()
 {
     Super::NativeConstruct();
+    auto* player = GetWorld()->GetFirstPlayerController()->GetPawn();
+    playerWidget = player->FindComponentByClass<UKMK_MakeWidgetComponent>();
     if (SendButt)
     {
         // 버튼 클릭 이벤트 바인딩
         SendButt->OnClicked.AddDynamic(this, &UKMK_UserWidget::OnCommitButtonClicked);
+        ExitButt->OnClicked.AddDynamic(this, &UKMK_UserWidget::OnClickExitButt);
     }
 }
 void UKMK_UserWidget::OnCommitButtonClicked()
@@ -25,4 +29,11 @@ void UKMK_UserWidget::OnCommitButtonClicked()
         // 서버에게 데이터값 보내기
         GEngine->AddOnScreenDebugMessage(1, 1, FColor::Green, FString::Printf(TEXT("%s"), *CurrentText.ToString()));
     }
+}
+
+void UKMK_UserWidget::OnClickExitButt()
+{
+    RemoveFromParent();
+    // playerWidget->count = 0;
+    GetWorld()->GetFirstPlayerController()->SetPause(false);
 }
