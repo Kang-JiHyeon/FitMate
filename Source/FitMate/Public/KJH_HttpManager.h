@@ -8,9 +8,6 @@
 #include "Interfaces/IHttpResponse.h"
 #include "KJH_HttpManager.generated.h"
 
-DECLARE_MULTICAST_DELEGATE(FDelegateHttpManagerOnSuccessedLogin)
-DECLARE_MULTICAST_DELEGATE(FDelegateHttpManagerOnFailedLogin)
-
 DECLARE_MULTICAST_DELEGATE_OneParam(FDelegateHttpManagerOnResponseLogin, bool)
 DECLARE_MULTICAST_DELEGATE_OneParam(FDelegateHttpManagerOnResponseRegister, bool)
 
@@ -22,9 +19,6 @@ class FITMATE_API AKJH_HttpManager : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AKJH_HttpManager();
-
-	//FDelegateHttpManagerOnSuccessedLogin OnSuccessedLogin;
-	//FDelegateHttpManagerOnFailedLogin OnFailedLogin;
 
 	FDelegateHttpManagerOnResponseLogin OnResponseLogin;
 	FDelegateHttpManagerOnResponseRegister OnResponseRegister;

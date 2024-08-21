@@ -116,7 +116,6 @@ void AKJH_HttpManager::OnResSignUp(FHttpRequestPtr Request, FHttpResponsePtr Res
 	}
 
 	OnResponseRegister.Broadcast(bConnectedSuccessfully);
-
 }
 
 /// <summary>
