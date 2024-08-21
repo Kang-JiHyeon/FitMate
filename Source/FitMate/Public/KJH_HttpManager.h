@@ -40,8 +40,16 @@ private:
 public:
 	void ReqSignUp(FString Id, FString Password, FString UserName);
 	void ReqLogin(FString Id, FString Password);
+	
+#pragma region Food with AI
+	void ReqIngredient(FString Ingredients);
+#pragma endregion
+
 
 private:
 	void OnResSignUp(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
 	void OnResLogin(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
+#pragma region Food with AI
+	void OnResIngredients(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully);
+#pragma endregion
 };

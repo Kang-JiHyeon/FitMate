@@ -6,6 +6,7 @@
 #include "../../../../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h"
 #include "KMK_InteractionActor.h"
 #include "KMK_Player.h"
+#include "KMK_ReceipWidget.h"
 
 // Sets default values for this component's properties
 UKMK_MakeWidgetComponent::UKMK_MakeWidgetComponent()
@@ -34,12 +35,13 @@ void UKMK_MakeWidgetComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 
 void UKMK_MakeWidgetComponent::SetupInputBinding(class UEnhancedInputComponent* input)
 {
+	// 키입력 바인딩
 	input->BindAction(IA_Interaction, ETriggerEvent::Triggered, this, &UKMK_MakeWidgetComponent::InputInteraction);
 }
 
 void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& value)
 {
-	GEngine->AddOnScreenDebugMessage(1, 1, FColor::Magenta, FString::Printf(TEXT("click")));
+	
 	// 라인 트레이스를 통해 클릭된 오브젝트를 감지
 	FHitResult HitResult;
 	me->pc->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, HitResult);
@@ -51,25 +53,42 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 		AActor* HitActor = HitResult.GetActor();
 		if (HitActor)
 		{
+			GEngine->AddOnScreenDebugMessage(1, 1, FColor::Magenta, FString::Printf(TEXT("click")));
 			FString ActorName = HitActor->GetName();
 			FVector ActorLocation = HitActor->GetActorLocation();
-
+			count = 0;
 			auto* actorClass = Cast<AKMK_InteractionActor>(HitActor);
 			if (actorClass)
 			{
 				widget = CreateWidget(GetWorld(), actorClass->widgetFact);
-				if (widget)
+				if (widget && count < 1)
 				{
 					SetViewPortLayer(widget, actorClass->layer);
+					count++;
+					auto* ex = Cast<UKMK_ReceipWidget>(widget);
+					if (ex)
+					{
+						TMap<FString, FString> log;
+						log.Add("HI", "1");
+						log.Add("He", "2");
+						log.Add("HIy", "3");
+						ex->SetTextLog(log);
+					}
 				}
 			}
 		}
 	}
 }
 
-
 // 외부에서 호출
 void UKMK_MakeWidgetComponent::SetViewPortLayer(UUserWidget* wid, int num)
 {
 	wid->AddToViewport(num);
+	me->pc->SetPause(true);
+}
+
+void UKMK_MakeWidgetComponent::DeleteMyWidget()
+{
+	widget->RemoveFromParent();
+	me->pc->SetPause(false);
 }

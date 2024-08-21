@@ -66,6 +66,7 @@ void AKMK_Player::InputMove(const struct FInputActionValue& value)
 	dir.Y = v.Y;
 
 	dir.Normalize();
+
 }
 
 
