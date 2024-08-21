@@ -16,12 +16,9 @@ class FITMATE_API UKJH_GameInstance : public UGameInstance
 
 public:
 	FString UserId;
-	FString UserName;
 
 public:
-	UKJH_GameInstance();
-	virtual void OnStart() override;
-	void SetUserInfo(FString userId, FString userName);
-	UPROPERTY()
-	class USoundBase* bgm = nullptr;
+	void SetUserInfo(FString userId);
+
+
 };

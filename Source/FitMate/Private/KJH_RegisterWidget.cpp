@@ -36,16 +36,15 @@ void UKJH_RegisterWidget::OnClickSignUp()
 
 	FString id = EditTextId->GetText().ToString();
 	FString password = EditTextPassword->GetText().ToString();
-	FString userName = EditTextUserName->GetText().ToString();
 
-	if (id.IsEmpty() || password.IsEmpty() || userName.IsEmpty())
+	if (id.IsEmpty() || password.IsEmpty())
 	{
 		TextFailedMsg->SetVisibility(ESlateVisibility::Visible);
 	}
 	else
 	{
 		TextFailedMsg->SetVisibility(ESlateVisibility::Hidden);
-		HttpManager->ReqSignUp(id, password, userName);
+		HttpManager->ReqSignUp(id, password);
 	}
 }
 
@@ -78,7 +77,6 @@ void UKJH_RegisterWidget::OnInitialize()
 	FText emptyText = FText::FromString("");
 	EditTextId->SetText(emptyText);
 	EditTextPassword->SetText(emptyText);
-	EditTextUserName->SetText(emptyText);
 
 	TextFailedMsg->SetVisibility(ESlateVisibility::Hidden);
 }
