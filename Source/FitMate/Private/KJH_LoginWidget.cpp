@@ -5,6 +5,7 @@
 #include "Components/Button.h"
 #include "Components/EditableText.h"
 #include "KJH_HttpManager.h"
+#include "KJH_GameModeBase.h"
 
 
 void UKJH_LoginWidget::NativeConstruct()
@@ -14,11 +15,19 @@ void UKJH_LoginWidget::NativeConstruct()
 	ButtonSignIn->OnClicked.AddDynamic(this, &UKJH_LoginWidget::OnClickSignIn);
 	//ButtonRegister->OnClicked.AddDynamic(this, &UKJH_LoginWidget::OnClickRegister);
 
+	GetWorld()->GetFirstPlayerController()->SetShowMouseCursor(true);
+
+	auto* gameModeBase = Cast<AKJH_GameModeBase>(GetWorld()->GetAuthGameMode());
+	if (gameModeBase || gameModeBase->HttpManager)
+	{
+		HttpManager = gameModeBase->HttpManager;
+	}
+
+
 }
 
 void UKJH_LoginWidget::OnClickSignIn()
 {
-
 	if(HttpManager == nullptr)
 		return;
 
@@ -31,9 +40,4 @@ void UKJH_LoginWidget::OnClickSignIn()
 void UKJH_LoginWidget::OnClickRegister()
 {
 
-}
-
-void UKJH_LoginWidget::SetHttpManager(AKJH_HttpManager* Manager)
-{
-	HttpManager = Manager;
 }

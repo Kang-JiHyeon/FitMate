@@ -40,7 +40,7 @@ private:
 	UFUNCTION()
 	void OnClickRegister();
 
-public:
-	UFUNCTION(BlueprintCallable)
-	void SetHttpManager(class AKJH_HttpManager* Manager);
+//public:
+//	UFUNCTION(BlueprintCallable)
+//	void SetHttpManager(class AKJH_HttpManager* Manager);
 };
