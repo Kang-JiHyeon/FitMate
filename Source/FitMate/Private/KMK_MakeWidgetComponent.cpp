@@ -71,17 +71,12 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 				widget = CreateWidget(GetWorld(), actorClass->widgetFact);
 				if (widget && count < 1)
 				{
+					if (actorClass->ResWidgetFact && count < 1)
+					{
+						RecipWidget = CreateWidget(GetWorld(), actorClass->ResWidgetFact);
+					}
 					SetViewPortLayer(widget, actorClass->layer);
 					count++;
-					auto* ex = Cast<UKMK_ReceipWidget>(widget);
-					if (ex)
-					{
-						TMap<FString, FString> log;
-						log.Add("HI", "1");
-						log.Add("He", "2");
-						log.Add("HIy", "3");
-						ex->SetTextLog(log);
-					}
 				}
 			}
 			UWidgetComponent* widgetComp = HitActor->FindComponentByClass<UWidgetComponent>();
@@ -101,8 +96,8 @@ void UKMK_MakeWidgetComponent::SetViewPortLayer(UUserWidget* wid, int num)
 	me->pc->SetPause(true);
 }
 
-void UKMK_MakeWidgetComponent::DeleteMyWidget()
+void UKMK_MakeWidgetComponent::DeleteMyWidget(UUserWidget* wid)
 {
-	widget->RemoveFromParent();
+	wid->RemoveFromParent();
 	me->pc->SetPause(false);
 }

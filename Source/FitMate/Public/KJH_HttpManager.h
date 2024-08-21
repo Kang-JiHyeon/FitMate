@@ -38,7 +38,7 @@ private:
 
 
 public:
-	void ReqSignUp(FString Id, FString Password, FString UserName);
+	void ReqSignUp(FString Password, FString UserName);
 	void ReqLogin(FString Id, FString Password);
 	
 #pragma region Food with AI

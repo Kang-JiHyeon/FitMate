@@ -30,8 +30,6 @@ public:
 	class UEditableText* EditTextId;
 	UPROPERTY(meta=(BindWidget))
 	class UEditableText* EditTextPassword;
-	UPROPERTY(meta=(BindWidget))
-	class UEditableText* EditTextUserName;
 	
 	UPROPERTY(meta=(BindWidget))
 	class UButton* ButtonSignUp;

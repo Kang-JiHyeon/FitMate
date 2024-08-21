@@ -30,6 +30,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void PlayYoutube(FString& youtube);
 
+	UFUNCTION()
 	// 메뉴, 재료, 레시피 작성
 	void SetTextLog(TMap<FString, FString> logs);
 };
