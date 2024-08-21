@@ -68,10 +68,10 @@ void UKMK_MakeWidgetComponent::InputInteraction(const struct FInputActionValue& 
 					auto* ex = Cast<UKMK_ReceipWidget>(widget);
 					if (ex)
 					{
-						TMap<int, FString> log;
-						log.Add(0, "1");
-						log.Add(1, "2");
-						log.Add(2, "3");
+						TMap<FString, FString> log;
+						log.Add("HI", "1");
+						log.Add("He", "2");
+						log.Add("HIy", "3");
 						ex->SetTextLog(log);
 					}
 				}
