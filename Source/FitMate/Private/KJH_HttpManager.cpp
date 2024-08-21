@@ -92,7 +92,7 @@ void AKJH_HttpManager::ReqLogin(FString Id, FString Password)
 	// 서버에 요청
 	req->ProcessRequest();
 }
-
+//================== 응답 ==========================
 /// <summary>
 /// 회원가입 응답
 /// </summary>
@@ -146,4 +146,43 @@ void AKJH_HttpManager::OnResLogin(FHttpRequestPtr Request, FHttpResponsePtr Resp
 	}
 
 }
+#pragma region KMK
+void AKJH_HttpManager::ReqIngredient(FString Ingredients)
+{
+	// Http 모듈을 생성
+	FHttpModule& httpModule = FHttpModule::Get();
+	TSharedRef<IHttpRequest> req = httpModule.CreateRequest();
+
+	TMap<FString, FString> data;
+	data.Add("ingredients", Ingredients);
+
+	// 요청 정보
+	//req->SetURL(GetURL("login"));
+	//req->SetVerb(TEXT("PUT"));
+	req->SetHeader(TEXT("content-type"), TEXT("application/json"));
+	req->SetContentAsString(UJsonParseLib::MakeJson(data));
+
+	// 응답받을 함수
+	req->OnProcessRequestComplete().BindUObject(this, &AKJH_HttpManager::OnResIngredients);
+	// 서버에 요청
+	req->ProcessRequest();
+}
+
+void AKJH_HttpManager::OnResIngredients(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
+{
+	UE_LOG(LogTemp, Warning, TEXT("OnResIngredient"));
+
+	if (bConnectedSuccessfully)
+	{
+		FString result = Response->GetContentAsString();
+
+		UE_LOG(LogTemp, Warning, TEXT("OnResIngredient Successed!! : \n%s "), *result);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("OnResIngredient Failed!!"));
+	}
+}
+#pragma endregion
+
 
