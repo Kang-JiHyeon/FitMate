@@ -18,7 +18,7 @@ void UKJH_LoginWidget::NativeConstruct()
 	GetWorld()->GetFirstPlayerController()->SetShowMouseCursor(true);
 
 	auto* gameModeBase = Cast<AKJH_GameModeBase>(GetWorld()->GetAuthGameMode());
-	if (gameModeBase || gameModeBase->HttpManager)
+	if (gameModeBase && gameModeBase->HttpManager)
 	{
 		HttpManager = gameModeBase->HttpManager;
 	}
