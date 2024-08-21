@@ -16,14 +16,17 @@ class FITMATE_API UKMK_ReceipWidget : public UUserWidget
 	GENERATED_BODY()
 public:
 	UPROPERTY(meta = (BindWidget))
-	class UEditableText* MenuText;
+	class UTextBlock* MenuText;
 
 	UPROPERTY(meta = (BindWidget))
-	class UMultiLineEditableText* IngredientText;
+	class UMultiLineEditableTextBox* IngredientText;
 
 	UPROPERTY(meta = (BindWidget))
-	class UMultiLineEditableText* ReceEdiableText;
+	class UMultiLineEditableTextBox* ReceEdiableText;
 
     UPROPERTY(meta = (BindWidget))
     class UWebBrowser* youtubeBrowser;
+
+	UFUNCTION(BlueprintCallable)
+	void PlayYoutube(FString& url);
 };
