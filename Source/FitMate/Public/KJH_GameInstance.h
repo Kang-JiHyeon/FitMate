@@ -20,4 +20,6 @@ public:
 
 public:
 	void SetUserInfo(FString userId, FString userName);
+
+
 };
