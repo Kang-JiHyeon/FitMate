@@ -16,7 +16,18 @@ class FITMATE_API AKJH_GameModeBase : public AGameModeBase
 public:
 	virtual void BeginPlay() override;
 
+public:
 	UPROPERTY()
 	class AKJH_HttpManager* HttpManager;
 
+	UPROPERTY()
+	class UKJH_SaveGame* MySaveGame;
+
+    FString VideoPath;
+	FString VideoPathKey = TEXT("VideoPath");
+	int32 MyUserIndex = 0;
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void SaveVideoPath(FString Path);
 };
