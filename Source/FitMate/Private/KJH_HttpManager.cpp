@@ -30,13 +30,12 @@ void AKJH_HttpManager::BeginPlay()
 /// </summary>
 /// <param name="SubUrl"></param>
 /// <param name="Json"></param>
-void AKJH_HttpManager::ReqSignUp(FString Id, FString Password, FString UserName)
+void AKJH_HttpManager::ReqSignUp(FString Password, FString UserName)
 {
 	FHttpModule& httpModule = FHttpModule::Get();
 	TSharedRef<IHttpRequest> req = httpModule.CreateRequest();
 
 	TMap<FString, FString> data;
-	data.Add("userId", Id);
 	data.Add("userPass", Password);
 	data.Add("userName", UserName);
 
@@ -63,14 +62,14 @@ void AKJH_HttpManager::ReqLogin(FString Id, FString Password)
 	TSharedRef<IHttpRequest> req = httpModule.CreateRequest();
 
 	TMap<FString, FString> data;
-	data.Add("id", Id);
-    data.Add("pass", Password);
+	data.Add("userName", Id);
+    data.Add("userPass", Password);
 
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *UJsonParseLib::MakeJson(data));
 
 	// 요청 정보
 	req->SetURL(GetURL("login"));
-	req->SetVerb(TEXT("PUT"));
+	req->SetVerb(TEXT("POST"));
 	req->SetHeader(TEXT("content-type"), TEXT("application/json"));
 	req->SetContentAsString(UJsonParseLib::MakeJson(data));
 
@@ -90,17 +89,20 @@ void AKJH_HttpManager::OnResSignUp(FHttpRequestPtr Request, FHttpResponsePtr Res
 {
 	UE_LOG(LogTemp, Warning, TEXT("OnResSignUp Call!!"));
 
+	bool result = false;
 	if (bConnectedSuccessfully)
 	{
-		FString result = Response->GetContentAsString();
-		UE_LOG(LogTemp, Warning, TEXT("OnResSignUp Successed!! : \n%s "), *result);
+		FString res = Response->GetContentAsString();
+		result = UKJH_JsonParseUserInfo::JsonParseSignUp(res);
+
+		UE_LOG(LogTemp, Warning, TEXT("OnResSignUp result : \n%d "), result);
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("OnResSignUp Failed!!"));
 	}
 
-	OnResponseRegister.Broadcast(bConnectedSuccessfully);
+	OnResponseRegister.Broadcast(result);
 }
 
 /// <summary>
@@ -117,12 +119,12 @@ void AKJH_HttpManager::OnResLogin(FHttpRequestPtr Request, FHttpResponsePtr Resp
 	if (bConnectedSuccessfully)
     {
         FString res = Response->GetContentAsString();
-		TMap<FString, FString> result = UKJH_JsonParseUserInfo::JsonParse(res);
+		TMap<FString, FString> result = UKJH_JsonParseUserInfo::JsonParseLogin(res);
 
-		if (!result.IsEmpty() || result.Contains("UserId") || result.Contains("UserName"))
+		if (!result.IsEmpty() || result.Contains("userId") || result.Contains("succeed"))
 		{
-			bSuccessed = true;
-			GameInstance->SetUserInfo(result["UserId"], result["UserName"]);
+			bSuccessed = result["succeed"] == "true";
+			GameInstance->SetUserInfo(result["userId"]);
 		}
 		else
 		{

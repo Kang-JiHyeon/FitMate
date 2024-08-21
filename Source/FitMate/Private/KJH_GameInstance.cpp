@@ -4,10 +4,7 @@
 #include "KJH_GameInstance.h"
 #include "KJH_FileDialogLib.h"
 
-void UKJH_GameInstance::SetUserInfo(FString userId, FString userName)
+void UKJH_GameInstance::SetUserInfo(FString userId)
 {
     UserId = userId;
-    UserName = userName;
-
-    UE_LOG(LogTemp, Warning, TEXT("%s, %s"), *UserId, *UserName);
 }

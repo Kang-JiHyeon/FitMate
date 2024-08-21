@@ -15,11 +15,10 @@ class FITMATE_API UKJH_GameInstance : public UGameInstance
 	GENERATED_BODY()
 	
 public:
-	FString UserId;	
-	FString UserName;
+	FString UserId;
 
 public:
-	void SetUserInfo(FString userId, FString userName);
+	void SetUserInfo(FString userId);
 
 
 };
