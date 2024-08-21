@@ -28,6 +28,10 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+
+	UPROPERTY()
+	class UKJH_GameInstance* GameInstance;
+
 	// ¼­¹ö URL
 	const FString ServerURL = "192.168.1.49:8080/";
 	const FString GetURL(FString SubUrl) { return ServerURL + SubUrl;};

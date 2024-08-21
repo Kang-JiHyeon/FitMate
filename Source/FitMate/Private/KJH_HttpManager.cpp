@@ -5,6 +5,7 @@
 #include "HttpModule.h"
 #include "JsonParseLib.h"
 #include "KJH_JsonParseUserInfo.h"
+#include "KJH_GameInstance.h"
 
 // Sets default values
 AKJH_HttpManager::AKJH_HttpManager()
@@ -18,24 +19,9 @@ AKJH_HttpManager::AKJH_HttpManager()
 void AKJH_HttpManager::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	GameInstance = Cast<UKJH_GameInstance>(GetWorld()->GetGameInstance());
 
-	//TMap<FString, FString> data;
-
-	//// 회원가입
- //   data.Add("userId", "user02");
- //   data.Add("userPass", "pass01");
- //   data.Add("userName", "Kang02");
- //   data.Add("userEmail", "user01@naver.com");
- //   data.Add("role", "USER");
-
-	////ReqSignUp(UJsonParseLib::MakeJson(data));
-
-	////// 로그인
- //   //data.Add("id", "user02");
- //   //data.Add("pass", "pass01");
- //   //ReqLogin(UJsonParseLib::MakeJson(data));
-
-	//UE_LOG(LogTemp, Warning, TEXT("Request Data : %s"), *UJsonParseLib::MakeJson(data));
 }
 
 /// <summary>
@@ -132,12 +118,12 @@ void AKJH_HttpManager::OnResLogin(FHttpRequestPtr Request, FHttpResponsePtr Resp
 	if (bConnectedSuccessfully)
     {
         FString res = Response->GetContentAsString();
-		FString result = UKJH_JsonParseUserInfo::JsonParse(res);
+		TMap<FString, FString> result = UKJH_JsonParseUserInfo::JsonParse(res);
 
-		if (result.IsEmpty() == false)
+		if (!result.IsEmpty() || result.Contains("UserId") || result.Contains("UserName"))
 		{
 			bSuccessed = true;
-			UE_LOG(LogTemp, Warning, TEXT("OnResLogin Successed!! : \n%s "), *result);
+			GameInstance->SetUserInfo(result["UserId"], result["UserName"]);
 		}
 		else
 		{

@@ -15,5 +15,6 @@ class FITMATE_API UKJH_JsonParseUserInfo : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 
 public:
-	static FString JsonParse(const FString& json);
+	static TMap<FString, FString> JsonParse(const FString& json);
+
 };

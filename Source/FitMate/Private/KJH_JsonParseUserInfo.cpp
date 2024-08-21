@@ -4,13 +4,14 @@
 #include "KJH_JsonParseUserInfo.h"
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonWriter.h"
+#include "KJH_GameInstance.h"
 
-FString UKJH_JsonParseUserInfo::JsonParse(const FString& json)
+TMap<FString, FString> UKJH_JsonParseUserInfo::JsonParse(const FString& json)
 {
 	TSharedRef<TJsonReader<TCHAR>> reader = TJsonReaderFactory<TCHAR>::Create(json);
 	TSharedPtr<FJsonObject> response = MakeShareable(new FJsonObject());
 
-	FString result;
+	TMap<FString, FString> result;
 	if (FJsonSerializer::Deserialize(reader, response))
 	{
 		TSharedPtr<FJsonObject> parseData = response->GetObjectField(TEXT("userInfo"));
@@ -28,7 +29,8 @@ FString UKJH_JsonParseUserInfo::JsonParse(const FString& json)
 			return result;
 		}
 
-		result.Append(FString::Printf(TEXT("userName : %s, userId : %s\n"), *userName, *userId));
+		result.Add("UserId", userId);
+		result.Add("UserName", userName);
 	}
 	return result;
 }
