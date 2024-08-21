@@ -7,15 +7,15 @@
 #include "KJH_GameInstance.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class FITMATE_API UKJH_GameInstance : public UGameInstance
 {
 	GENERATED_BODY()
-	
+
 public:
-	FString UserId;	
+	FString UserId;
 	FString UserName;
 
 public:

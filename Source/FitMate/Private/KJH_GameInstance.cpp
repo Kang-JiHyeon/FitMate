@@ -25,6 +25,6 @@ void UKJH_GameInstance::SetUserInfo(FString userId, FString userName)
 {
     UserId = userId;
     UserName = userName;
-    
+
     UE_LOG(LogTemp, Warning, TEXT("%s, %s"), *UserId, *UserName);
 }
