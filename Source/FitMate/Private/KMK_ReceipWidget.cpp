@@ -6,12 +6,12 @@
 #include "Components/TextBlock.h"
 #include "Components/MultiLineEditableTextBox.h"
 
-void UKMK_ReceipWidget::PlayYoutube(FString& url)
+void UKMK_ReceipWidget::PlayYoutube(FString& youtubeURL)
 {
-    url = TEXT("https://www.youtube.com/watch?v=NRgZuuwD2WY&list=RDNRgZuuwD2WY&start_radio=1");
+    youtubeURL = TEXT("https://www.youtube.com/watch?v=NRgZuuwD2WY&list=RDNRgZuuwD2WY&start_radio=1");
     if (youtubeBrowser)
     {
-        youtubeBrowser->LoadURL(url);
+        youtubeBrowser->LoadURL(youtubeURL);
     }
 }
 
