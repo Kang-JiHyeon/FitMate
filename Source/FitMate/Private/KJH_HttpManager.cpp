@@ -32,14 +32,14 @@ void AKJH_HttpManager::BeginPlay()
 /// </summary>
 /// <param name="SubUrl"></param>
 /// <param name="Json"></param>
-void AKJH_HttpManager::ReqSignUp(FString Password, FString UserName)
+void AKJH_HttpManager::ReqSignUp(FString Id, FString Password)
 {
 	FHttpModule& httpModule = FHttpModule::Get();
 	TSharedRef<IHttpRequest> req = httpModule.CreateRequest();
 
 	TMap<FString, FString> data;
+	data.Add(TEXT("userName"), Id);
 	data.Add(TEXT("userPass"), Password);
-	data.Add(TEXT("userName"), UserName);
 
 	// 요청 정보
 	req->SetURL(GetURL(TEXT("signup")));
